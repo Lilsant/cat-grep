@@ -7,6 +7,9 @@ struct flags {
     int c;
     int l;
     int n;
+    int h;
+    int s;
+    int o;
 } f;
 
 

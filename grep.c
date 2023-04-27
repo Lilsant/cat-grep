@@ -20,10 +20,10 @@ int main(int argc, char *argv[])
             int total_lines_count = 0;
             int matching_lines_count = 0;
             int read = 0;
-            if (argc > 4)
+            if (argc > 4 && !f.h)
                 is_multi_files = 1;
             fp = fopen(argv[i], "r");
-            if (fp == NULL)
+            if (fp == NULL && !f.s)
             {
                 printf("grep: %s: No such file or directory\n", argv[i]);
                 // return 0;
@@ -45,7 +45,9 @@ int main(int argc, char *argv[])
                         printf("%s:", argv[i]);
                     if (f.n)
                         printf("%d:", total_lines_count);
-                    printf("%s", line);
+                    if(f.o) 
+                        printf("%s\n", argv[2]);
+                    else printf("%s", line);
                 }
                 else if (bro == NULL && f.v && !f.c && !f.l)
                 {
@@ -89,6 +91,9 @@ void flags_init()
     f.c = 0; // Done
     f.l = 0; // Done
     f.n = 0; // Done
+    f.h = 0; // Done
+    f.s = 0; // Done, but need to add some errors
+    f.o = 0; 
 }
 
 char *line_to_lower_case(char *str, char *grep_word, int str_len, int grep_word_len)
@@ -128,6 +133,15 @@ void check_flags(char **argv, int argc)
                 break;
             case 'n':
                 f.n = 1;
+                break;
+            case 's':
+                f.s = 1;
+                break;
+            case 'o':
+                f.o = 1;
+                break;
+            case 'h':
+                f.h = 1;
                 break;
             default:
                 break;
